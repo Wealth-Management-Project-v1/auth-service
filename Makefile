@@ -1,3 +1,3 @@
 docker-build:
 	git pull
-	docker build -t portfolio-service .
+	docker build -t auth-service .
