@@ -19,4 +19,4 @@ jobs:
           repository: Wealth-Management-Project-v1/helm-v1
           path: helm
       - name: Helm deploy
-        run: make eks-deploy
+        run: make eks-deploy image_tag=${GITHUB_SHA}
