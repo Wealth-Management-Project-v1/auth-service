@@ -7,7 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: build
-        run: make docker-build
+        run: make docker-build image_tag=${GITHUB_SHA}
 
   eks-deploy:
     needs: Docker-Build
