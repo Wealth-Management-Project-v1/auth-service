@@ -6,5 +6,5 @@ docker-build:
 
 eks-deploy:
 	git pull
-	aws eks update-kubeconfig --name dev
+	aws eks update-kubeconfig --name wmp-dev
 	helm upgrade -i auth-service helm -f helm/values/auth-service --set image_tag=$(image_tag)
