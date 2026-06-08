@@ -1,6 +1,6 @@
 name: wmp-ci-auth-service
 run-name: ${{ github.actor }} is testing out GitHub Actions
-on: [push]
+on: [workflow_dispatch]
 jobs:
   Docker-Build:
     runs-on: self-hosted
