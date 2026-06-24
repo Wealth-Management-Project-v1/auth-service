@@ -1,22 +1,11 @@
-name: wmp-ci-auth-service
-run-name: ${{ github.actor }} is testing out GitHub Actions
-on: [workflow_dispatch]
-jobs:
-  Docker-Build:
-    runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@v6
-      - name: build
-        run: make docker-build image_tag=${GITHUB_SHA}
+name: CI-MAIN-Auth-Service
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
-  eks-deploy:
-    needs: Docker-Build
-    runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@v6
-      - uses: actions/checkout@v6
-        with:
-          repository: Wealth-Management-Project-v1/helm-v1
-          path: helm
-      - name: Helm deploy
-        run: make eks-deploy image_tag=${GITHUB_SHA}
+jobs:
+  Call-CI:
+    uses: Wealth-Management-Project-v1/github-actions-reusable-workflows/.github/workflows/ci.yaml@main
+
