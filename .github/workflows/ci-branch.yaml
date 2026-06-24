@@ -7,8 +7,4 @@ on:
 
 jobs:
   Call-Docker-Build-Main:
-    uses: Wealth-Management-Project-v1/github-actions-reusable-workflows/.github/workflows/docker-build-main.yaml@main
-
-  Call-CI-Main:
-    uses: Wealth-Management-Project-v1/github-actions-reusable-workflows/.github/workflows/ci-main.yaml@main
-
+    uses: Wealth-Management-Project-v1/github-actions-reusable-workflows/.github/workflows/ci-branch.yaml@main
