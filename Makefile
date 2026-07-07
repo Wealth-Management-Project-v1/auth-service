@@ -1,4 +1,5 @@
-
+argocd_server = $(shell kubectl get svc argo-argocd-server -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+argocd_password = $(shell kubectl get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d)
 
 docker-build:
 	git pull
@@ -15,12 +16,11 @@ argo-deploy:
 	git pull
 	aws eks update-kubeconfig --name wmp-dev
 
-	ARGOCD_SERVER=$$(kubectl get svc argo-argocd-server -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'); \
-	ARGOCD_PASSWORD=$$(kubectl get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d); \
-	argocd login $$ARGOCD_SERVER \
+
+	argocd login $(argocd_server) \
 		--insecure \
 		--username admin \
-		--password "$$ARGOCD_PASSWORD"; \
+		--password $(argocd_password) \
 	argocd app create auth-service \
 		--repo https://github.com/Wealth-Management-Project-v1/helm-v1.git \
 		--path . \
