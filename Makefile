@@ -31,3 +31,5 @@ argo-deploy:
     --sync-policy auto \
     --values values/auth-service.yaml \
     --helm-set-string $(image_tag)
+
+
