@@ -4,7 +4,7 @@ argocd_password = $(shell kubectl get secret argocd-initial-admin-secret -n argo
 docker-build:
 	git pull
 	aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 565122144984.dkr.ecr.us-east-1.amazonaws.com
-	docker build -t  565122144984.dkr.ecr.us-east-1.amazonaws.com/auth-service:$(image_tag) .
+	docker build -t 565122144984.dkr.ecr.us-east-1.amazonaws.com/auth-service:$(image_tag) .
 	docker push 565122144984.dkr.ecr.us-east-1.amazonaws.com/auth-service:$(image_tag)
 
 eks-deploy:
@@ -31,4 +31,5 @@ argocd-deploy:
 		--sync-policy auto \
 		--upsert \
 		--values values/auth-service.yaml \
+		--helm-set-string image_tag=$(image_tag)
 		--helm-set-string image_tag=$(image_tag)
