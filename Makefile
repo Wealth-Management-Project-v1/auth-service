@@ -41,6 +41,5 @@ argocd-deploy:
 		--values values/auth-service.yaml \
 		--helm-set-string image_tag=$(image_tag)
 
-	argocd app sync auth-service
 	argocd app wait auth-service --health --timeout 300
 
