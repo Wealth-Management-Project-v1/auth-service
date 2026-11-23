@@ -2,7 +2,7 @@
 AWS_ACCOUNT_ID := 565122144984
 AWS_REGION := us-east-1
 ECR_REGISTRY := $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com
-IMAGE_NAME := analytics-service
+IMAGE_NAME := auth-service
 IMAGE_URI := $(ECR_REGISTRY)/$(IMAGE_NAME):$(image_tag)
 
 .PHONY: docker-build eks-deploy argocd-deploy
@@ -16,8 +16,8 @@ docker-build:
 eks-deploy:
 	@test -n "$(image_tag)" || (echo "ERROR: image_tag is required"; exit 1)
 	aws eks update-kubeconfig --region $(AWS_REGION) --name wmp-dev
-	helm upgrade --install analytics-service helm \
-		-f helm/values/analytics-service.yaml \
+	helm upgrade --install auth-service helm \
+		-f helm/values/auth-service.yaml \
 		--set-string image_tag=$(image_tag)
 
 argocd-deploy:
@@ -30,7 +30,7 @@ argocd-deploy:
 	echo "ArgoCD server hostname retrieved successfully"; \
 	argocd login "$$ARGOCD_SERVER" --insecure --username admin --password "$$ARGOCD_PASSWORD"
 
-	argocd app create analytics-service \
+	argocd app create auth-service \
 		--repo https://github.com/Wealth-Management-Project-v1/helm-v1.git \
 		--path . \
 		--revision main \
@@ -38,9 +38,9 @@ argocd-deploy:
 		--dest-namespace default \
 		--sync-policy auto \
 		--upsert \
-		--values values/analytics-service.yaml \
+		--values values/auth-service.yaml \
 		--helm-set-string image_tag=$(image_tag)
 
-	argocd app sync analytics-service
-	argocd app wait analytics-service --health --timeout 300
+	argocd app sync auth-service
+	argocd app wait auth-service --health --timeout 300
 
